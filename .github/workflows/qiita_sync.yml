@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   qiita_sync_check:
     name: Run qiita-sync sync
@@ -34,5 +37,6 @@ jobs:
             git config user.email github-actions@github.com
             find . -name '*.md' -not -path './.*' | xargs git add
             git commit -m "updated by qiita-sync"
+            git remote set-url origin https://${{ env.GITHUB_TOKEN }}@github.com/kojikawazu/qiita-article-kk.git
             git push
           fi
