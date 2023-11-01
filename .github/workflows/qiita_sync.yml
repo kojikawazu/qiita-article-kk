@@ -1,0 +1,62 @@
+name: Qiita Sync
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  QIITA_USER_ID: ${{ secrets.QIITA_USER_ID }}
+
+jobs:
+  qiita_sync_check:
+    name: Run qiita-sync sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      
+      - name: Install qiita-sync
+        run: |
+          python -m pip install qiita-sync
+
+      - name: Git
+        run: |
+          FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | wc -l)
+          if [ "$FILES_CHANGED" -ne 1 ]; then
+            echo "Error: More than one file changed in the last commit."
+            exit 1
+          fi
+        
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          for ARTICLE_PATH in $CHANGED_FILES; do
+
+            ARTICLE_CONTENT=$(cat $ARTICLE_PATH)
+            TARGET_TITLE=$(head -n 1 $ARTICLE_PATH | sed 's/^# //')
+
+            ARTICLES=$(curl -s "https://qiita.com/api/v2/users/${{ env.QIITA_USER_ID }}/items" -H "Authorization: Bearer ${{ secrets.QIITA_ACCESS_TOKEN }}")
+            ARTICLE_ID=$(echo $ARTICLES | jq -r ".[] | select(.title == \"$TARGET_TITLE\") | .id")
+        
+            if [ ! -z "$ARTICLE_ID" ]; then
+              curl -X PATCH "https://qiita.com/api/v2/items/$ARTICLE_ID" \
+                -H "Authorization: Bearer ${{ secrets.QIITA_ACCESS_TOKEN }}" \
+                -H "Content-Type: application/json" \
+                -d "{\"body\": \"$ARTICLE_CONTENT\"}"
+            else
+              RESPONSE=$(curl -X POST "https://qiita.com/api/v2/items" \
+                -H "Authorization: Bearer ${{ secrets.QIITA_ACCESS_TOKEN }}" \
+                -H "Content-Type: application/json" \
+                -d "{\"body\": \"$ARTICLE_CONTENT\", \"title\": \"Your Title\", \"tags\": [{\"name\": \"sample\"}]}")
+              ARTICLE_ID=$(echo $RESPONSE | jq '.id')
+            fi
+          done
+        shell: bash
+        
