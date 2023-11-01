@@ -57,5 +57,6 @@ jobs:
                 -d "{\"body\": \"$ARTICLE_CONTENT\", \"title\": \"Your Title\", \"tags\": [{\"name\": \"sample\"}]}")
               ARTICLE_ID=$(echo $RESPONSE | jq '.id')
             fi
+          done
         shell: bash
         
