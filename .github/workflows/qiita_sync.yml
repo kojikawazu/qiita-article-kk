@@ -43,6 +43,7 @@ jobs:
             TARGET_TITLE=$(head -n 1 $ARTICLE_PATH | sed 's/^# //')
 
             ARTICLES=$(curl -s "https://qiita.com/api/v2/users/${{ env.QIITA_USER_ID }}/items" -H "Authorization: Bearer ${{ secrets.QIITA_ACCESS_TOKEN }}")
+            echo "API Response: $ARTICLES"
             ARTICLE_ID=$(echo $ARTICLES | jq -r ".[] | select(.title == \"$TARGET_TITLE\") | .id")
         
             if [ ! -z "$ARTICLE_ID" ]; then
