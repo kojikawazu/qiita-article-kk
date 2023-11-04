@@ -15,7 +15,7 @@
 リポジトリを作成する際、「Repository name*」欄には自分のGitHubアカウント名を入力してください。
 そうするとプロフィール用と自動認識されます。
 
-![GitHubリポジトリ](../resources/02/02-01.png)
+![GitHubリポジトリ作成](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/48830/814ef4f1-02ee-82eb-fffa-2defc11a8e96.png)
 
 ## README.mdを編集する
 
@@ -38,6 +38,7 @@ markdown記法で記載可能です。
 このステップを実行すると、指定したフィードリストからブログの投稿を自動的に取得し、それをREADMEに追加します。
 
 ここを参考に使わせていただきました。
+
 https://github.com/anuraghazra/github-readme-stats
 
 
@@ -116,17 +117,19 @@ jobs:
 ローカルリポジトリでプッシュし、リモートリポジトリのデフォルトブランチにマージし終えるとGitHubのプロフィール画面に反映されます。
 
 私のGitHubのプロフィール欄をサンプルとして表示してます。
-![GitHubリポジトリ01](../resources/02/02-02.png)
-![GitHubリポジトリ02](../resources/02/02-03.png)
+![GitHubリポジトリ01](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/48830/cac67478-ee06-b8aa-5194-12980285e0a5.png)
+![GitHubリポジトリ02](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/48830/b0b32bc7-40c5-4d11-d4de-1c8bb441a2b5.png)
 
 ## 参考URL
 
 こちらの記事を参考にしました。
 
 - つよつよGitHubプロフィールの作り方
+
 https://qiita.com/moroi/items/6847e4ea5defc8baded4
 
 - 3分できる即席GitHubプロフィール
+
 https://zenn.dev/t_keshi/articles/instant-github-profile
 
 ## 終わりに
