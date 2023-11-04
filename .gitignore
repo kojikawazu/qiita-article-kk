@@ -1,2 +1,4 @@
 private
 /trial/*
+node_modules
+package*
