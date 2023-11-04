@@ -30,7 +30,7 @@ jobs:
 
       - name: Git
         run: |
-          for DIR in articles images; do
+          for DIR in articles resources; do
             for FILE_PATH in $DIR/*; do
             
               FILE_CONTENT=$(cat $FILE_PATH)
