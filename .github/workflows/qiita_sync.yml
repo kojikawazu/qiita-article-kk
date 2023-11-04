@@ -30,31 +30,29 @@ jobs:
 
       - name: Git
         run: |
-          for DIR in articles resources; do
-            for FILE_PATH in $DIR/*; do
-            
-              FILE_CONTENT=$(cat $FILE_PATH)
+          for FILE_PATH in articles/*.md; do
+            if [ -f "$FILE_PATH" ]; then  # ファイルのみを対象とする
+              FILE_CONTENT=$(jq -Rs . < $FILE_PATH)  # ファイルの内容をエスケープしてJSON文字列として取得
               TARGET_TITLE=$(head -n 1 $FILE_PATH | sed 's/^# //')
-
+      
               ARTICLES=$(curl -s "https://qiita.com/api/v2/users/${{ env.QIITA_USER_ID }}/items" -H "Authorization: Bearer ${{ secrets.QIITA_ACCESS_TOKEN }}")
               ARTICLE_ID=$(echo $ARTICLES | jq -r ".[] | select(.title == \"$TARGET_TITLE\") | .id")
               QIITA_CONTENT=$(echo $ARTICLES | jq -r ".[] | select(.title == \"$TARGET_TITLE\") | .body")
-
+      
               if [ "$FILE_CONTENT" != "$QIITA_CONTENT" ]; then
                 if [ ! -z "$ARTICLE_ID" ]; then
                   curl -X PATCH "https://qiita.com/api/v2/items/$ARTICLE_ID" \
                     -H "Authorization: Bearer ${{ secrets.QIITA_ACCESS_TOKEN }}" \
                     -H "Content-Type: application/json" \
-                    -d "{\"body\": \"$FILE_CONTENT\"}"
+                    -d "{\"body\": $FILE_CONTENT}"
                 else
                   curl -X POST "https://qiita.com/api/v2/items" \
                     -H "Authorization: Bearer ${{ secrets.QIITA_ACCESS_TOKEN }}" \
                     -H "Content-Type: application/json" \
-                    -d "{\"body\": \"$FILE_CONTENT\", \"title\": \"$TARGET_TITLE\", \"tags\": [{\"name\": \"sample\"}]}"
+                    -d "{\"body\": $FILE_CONTENT, \"title\": \"$TARGET_TITLE\", \"tags\": [{\"name\": \"sample\"}]}"
                 fi
               fi
-
-            done
+            fi
           done
           
         shell: bash
