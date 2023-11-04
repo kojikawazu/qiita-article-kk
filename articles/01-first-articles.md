@@ -8,7 +8,10 @@
 Qiita初投稿になります。
 皆様、よろしくお願いいたします。
 
-## 概要
+<!--
+    title: claude.aiつかってみた
+    tags:  claude
+-->
 
 X(旧Twitter)でChatGPTに似た「claude.ai」という情報をキャッチした。
 
