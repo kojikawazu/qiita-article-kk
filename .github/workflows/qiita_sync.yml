@@ -33,7 +33,7 @@ jobs:
           for FILE_PATH in articles/*.md; do
             if [ -f "$FILE_PATH" ]; then
               FILE_CONTENT=$(jq -Rs . < $FILE_PATH)
-              TARGET_TITLE=$(head -n 1 $FILE_PATH | sed 's/^# //')
+              TARGET_TITLE=$(grep -oP '(?<=title: ).*' $FILE_PATH)
               TARGET_TITLE_ESCAPED=$(echo "$TARGET_TITLE" | jq -Rs .)
       
               ARTICLES=$(curl -s "https://qiita.com/api/v2/users/${{ env.QIITA_USER_ID }}/items" -H "Authorization: Bearer ${{ secrets.QIITA_ACCESS_TOKEN }}")
