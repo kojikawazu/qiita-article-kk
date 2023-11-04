@@ -119,6 +119,16 @@ jobs:
 ![GitHubリポジトリ01](../resources/02/02-02.png)
 ![GitHubリポジトリ02](../resources/02/02-03.png)
 
+## 参考URL
+
+こちらの記事を参考にしました。
+
+- つよつよGitHubプロフィールの作り方
+https://qiita.com/moroi/items/6847e4ea5defc8baded4
+
+- 3分できる即席GitHubプロフィール
+https://zenn.dev/t_keshi/articles/instant-github-profile
+
 ## 終わりに
 
 GitHubアカウントページのカスタマイズ方法について記事にまとめてみました。いつものGitHubリポジトリを作成し、READEME.mdを書くことでさくっとプロフィール画面を作れるのはありがたいと思いました。今後もウィジェットを探しながら、良いプロフィールを模索したいと思います。
